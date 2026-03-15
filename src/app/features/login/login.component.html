@@ -1,0 +1,111 @@
+<section class="flex items-center justify-center min-h-screen">
+  <div class="container bg-white rounded-lg shadow-lg border border-gray-300 p-4 max-w-3xl">
+    <h1 class="text-3xl">Log in to Route Posts</h1>
+    <p class="text-gray-500">Log in and continue your social journey.</p>
+    <form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="grid gap-y-4">
+      <div class="relative">
+        <input
+          [class]="{
+            'border-green-700': loginForm.get('email')?.valid,
+            'border-red-700': loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+          }"
+          formControlName="login"
+          type="email"
+          id="email"
+          class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border-1 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+          placeholder=" "
+        />
+        <label
+          for="email"
+          class="absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+          >Username or Email</label
+        >
+      </div>
+
+      @if(loginForm.get('login')?.invalid && loginForm.get('login')?.touched){
+      <div
+        class="flex p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+        role="alert"
+      >
+        <span class="sr-only">Danger</span>
+        <div>
+          <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
+            @if(loginForm.get('login')?.hasError('required')){
+            <li>Email or username is required.</li>
+            } @else if (loginForm.get('login')?.hasError('minlength')) {
+            <li>Must be at least 3 characters.</li>
+            }
+          </ul>
+        </div>
+      </div>
+      }
+
+      <div class="relative">
+        <input
+          #pass
+          [class]="{
+            'border-green-700': loginForm.get('password')?.valid,
+            'border-red-700':
+              loginForm.get('password')?.invalid && loginForm.get('password')?.touched
+          }"
+          formControlName="password"
+          type="password"
+          id="password"
+          class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border-1 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+          placeholder=" "
+        />
+        <label
+          for="password"
+          class="absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+          >Password</label
+        >
+
+        <span
+          (click)="showPassword(pass)"
+          class="absolute top-1/2 end-4 cursor-pointer -translate-y-1/2"
+          ><i [class]="pass.type === 'password' ? 'fa-eye-slash' : 'fa-eye'" class="fas"></i
+        ></span>
+      </div>
+
+      @if(loginForm.get('password')?.invalid && loginForm.get('password')?.touched){
+      <div
+        class="flex p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+        role="alert"
+      >
+        <span class="sr-only">Danger</span>
+        <div>
+          <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
+            @if(loginForm.get('password')?.hasError('required')){
+            <li>Password is required.</li>
+            } @else if (loginForm.get('password')?.hasError('pattern')) {
+            <li>Please enter a valid password address.</li>
+            }
+          </ul>
+        </div>
+      </div>
+      }
+
+      <button
+        type="submit"
+        [disabled]="loading"
+        class="disabled:bg-gray-500 disabled:cursor-not-allowed bg-mainColor py-1.5 rounded text-white cursor-pointer"
+      >
+        Log In @if(loading) {
+        <i class="fas fa-spinner animate-spin"></i>
+        }
+      </button>
+
+      @if(msgError) {
+      <p class="text-center text-red-800 bg-red-300 mx-auto p-2">{{ msgError }}</p>
+      }
+
+      <button
+        routerLink="/register"
+        type="button"
+        class="border border-blue-600 cursor-pointer mt-2 text-blue-600 rounded-full py-2"
+      >
+        Create new account
+      </button>
+    </form>
+  </div>
+</section>
