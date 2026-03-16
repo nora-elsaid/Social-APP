@@ -33,5 +33,9 @@ export class PostsService {
   deletePost(postId:string):Observable<any>{
     return this.httpClient.delete(environment.basUrl + `/posts/${postId}` , this.header)
   }
+
+  likePost(id:string):Observable<any>{
+    return this.httpClient.put(environment.basUrl+`/posts/${id}/like`,null)
+  }
   
 }

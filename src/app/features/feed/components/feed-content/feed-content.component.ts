@@ -1,5 +1,5 @@
+import { PostsService } from './../../../../core/services/posts.service';
 import { Component, inject, OnInit } from '@angular/core';
-import { PostsService } from '../../../../core/services/posts.service';
 import { Post } from '../../../../core/models/post.interface';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommentPostComponent } from './components/comment-post/comment-post.component';
@@ -24,6 +24,7 @@ export class FeedContentComponent implements OnInit{
   imgUrl:string | ArrayBuffer | null | undefined;
   editingPostId: string | null = null;
   editingText = '';
+  liked!:boolean;
 
   ngOnInit(): void {
     this.getAllPostsData();
@@ -147,4 +148,24 @@ export class FeedContentComponent implements OnInit{
     // this.getAllPostsData(); // استرجاع البيانات الأصلية
   }
 
+  likePost(postId:string):void{
+    this.postsService.likePost(postId).subscribe({
+      next:(res)=>{
+        console.log(res);
+        this.liked=res.data.liked;
+        console.log(this.liked);
+        this.getAllPostsData();
+        
+      },
+      error:(err)=>{
+        console.log(err);
+        
+      }
+    })
+  }
+
+  isLiked(post:Post){
+    return post.likes.includes(this.userId)
+    }
+    
 }

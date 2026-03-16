@@ -229,7 +229,9 @@
     <!-- buttons like - comment - share -->
     <div class="flex items-center justify-between px-1 py-1">
       <button
-        class="flex-1 cursor-pointer flex items-center justify-center gap-2 text-slate-600 font-semibold text-[14px] hover:bg-slate-50 py-2 rounded-lg transition-colors"
+        (click)="likePost(post._id)"
+        [class]="isLiked(post) ? 'text-blue-600' : 'text-slate-600'"
+        class="flex-1 cursor-pointer flex items-center justify-center gap-2 font-semibold text-[14px] hover:bg-slate-50 py-2 rounded-lg transition-colors"
       >
         <i class="fa-regular fa-thumbs-up text-lg"></i>
         Like
